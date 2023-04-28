@@ -8,13 +8,13 @@
       <van-swipe :loop="false" :width="150" :show-indicators="false" class="swipe">
         <van-swipe-item v-for="item in state.musicList" :key="item.id" class="swipe-item">
           <img :src="item.picUrl" alt="">
-          <span>
+          <span class="playCount">
             <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-bofang"></use>
+              <use xlink:href="#icon-play1"></use>
             </svg>
-            {{ item.playCount }}
+            {{ handlePlayCount(item.playCount) }}
           </span>
-          <span>{{ item.name }}</span>
+          <span class="sheetname">{{ item.name }}</span>
         </van-swipe-item>
       </van-swipe>
     </div>
@@ -29,12 +29,18 @@ export default {
     const state =reactive({
       musicList:[]
     }) 
+    const handlePlayCount = (num)=>{
+      if(num> 100000000){
+        return (num/10000000).toFixed(1)+'亿'
+      }else {
+        return (num/10000).toFixed(1) + '万'
+      }}
     onMounted(async ()=>{
       let res = await getMusicList();
       state.musicList = res.data.result
       console.log(state.musicList)
     })
-    return { state };
+    return { state ,handlePlayCount};
   },
 
 }
@@ -71,11 +77,21 @@ export default {
     height: 3.4rem;
     .swipe {
       height: 100%;
-      display: flex;
       .swipe-item {
+        position: relative;
+        margin-left:10px;
         img {
+          border-radius: 20px;
           width: 100%;
+          height:3rem;
         }
+        .playCount {
+          color: #fff;
+          position:absolute;
+          top:10px;
+          right:10px;
+        }
+
       }
     }
 
