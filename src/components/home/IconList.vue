@@ -44,7 +44,7 @@ export default {
 .iconList {
   margin-top:0.2rem;
   width:100%;
-  height:2rem;
+  height:1.6rem;
   display: flex;
   justify-content: space-around;
   align-items: center;
