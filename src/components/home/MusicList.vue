@@ -5,16 +5,18 @@
       <div class="more">查看更多</div>
     </div>
     <div class="musicContent">
-      <van-swipe :loop="false" :width="150" :show-indicators="false" class="swipe">
+      <van-swipe :loop="false" :width="130" :show-indicators="false" class="swipe">
         <van-swipe-item v-for="item in state.musicList" :key="item.id" class="swipe-item">
-          <img :src="item.picUrl" alt="">
-          <span class="playCount">
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-play1"></use>
-            </svg>
-            {{ handlePlayCount(item.playCount) }}
-          </span>
-          <span class="sheetname">{{ item.name }}</span>
+          <router-link :to="{path:'/music-list-detail',query:{id:item.id}}" >
+            <img :src="item.picUrl" alt="">
+            <span class="playCount">
+              <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-z"></use>
+              </svg>
+              {{ handlePlayCount(item.playCount) }}
+            </span>
+            <span class="sheetname">{{ item.name }}</span>
+          </router-link>
         </van-swipe-item>
       </van-swipe>
     </div>
@@ -27,7 +29,7 @@ import { reactive,onMounted } from 'vue';
 export default {
   setup() {
     const state =reactive({
-      musicList:[]
+      musicList:[],
     }) 
     const handlePlayCount = (num)=>{
       if(num> 100000000){
@@ -48,6 +50,8 @@ export default {
 
 <style lang="less" scoped>
 .musicList {
+  border-top:1px solid #f8f0f0;
+  padding-top:0.2rem;
   width:100%;
   height: 4rem;
   // background-color: pink;
@@ -65,7 +69,7 @@ export default {
     }
     .more {
       padding: 0 0.1rem;
-      font-size: 0.26rem;
+      font-size: 0.2rem;
       border:1px solid #ccc;
       border-radius: .3rem;
       line-height: 0.6rem;
@@ -73,23 +77,40 @@ export default {
 
   }
   .musicContent {
+    margin-top:0.2rem;
     width:100%;
-    height: 3.4rem;
+    height: 3.5rem;
     .swipe {
       height: 100%;
       .swipe-item {
         position: relative;
-        margin-left:10px;
+        margin-left:0.2rem;
         img {
-          border-radius: 20px;
-          width: 100%;
-          height:3rem;
+          border-radius: .4rem;
+          width: 2.6rem;
+          height:2.6rem;
         }
         .playCount {
           color: #fff;
           position:absolute;
-          top:10px;
-          right:10px;
+          right:.1rem;
+          line-height: 0.6rem;
+          .icon {
+            vertical-align: -0.14rem;
+            fill: currentColor;
+            overflow: hidden;
+          }
+        }
+        .sheetname {
+          font-size: 0.28rem;
+          display: inline-block;
+          height:.8rem;
+          word-break: break-all;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-box-orient:vertical ;
+          -webkit-line-clamp: 2; 
+          overflow: hidden;
         }
 
       }
