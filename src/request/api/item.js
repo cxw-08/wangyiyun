@@ -9,3 +9,12 @@ export function getMusicListDetail(id) {
 
   })
 }
+
+// 获取歌单里面的歌曲
+export function getAllMusicList(id) {
+  return service({
+    method: 'GET',
+    url: `/playlist/track/all?id=${id}`
+
+  })
+}

@@ -23,7 +23,7 @@
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-z"></use>
         </svg>
-        {{ handlePlayCount(playList.playCount) }}
+        {{ handleCount(playList.playCount) }}
       </span>
     </div>
     <div class="rightContent">
@@ -43,19 +43,19 @@
         <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-zhuanfa"></use>
         </svg>
-        {{ playList.shareCount }}
+        {{ handleCount(playList.shareCount) }}
       </div>
       <div class="operate-item">
         <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-xiaoxi-zhihui"></use>
         </svg>
-        {{ playList.commentCount }}
+        {{ handleCount(playList.commentCount) }}
       </div>
       <div class="operate-item" :class="state.isTrack ? '' : 'active'" @click="handleTrack()">
         <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-shoucang1"></use>
         </svg>
-        {{ playList.trackCount }}
+        {{ handleCount(playList.subscribedCount) }}
       </div>
   </div>
 </template>
@@ -70,11 +70,13 @@ export default {
     const state = reactive({
       isTrack:false
     })
-    const handlePlayCount = (num)=>{
+    const handleCount = (num)=>{
       if(num> 100000000){
         return (num/10000000).toFixed(1)+'亿'
-      }else {
+      }else if(num > 10000){
         return (num/10000).toFixed(1) + '万'
+      }else {
+        return num
       }}
     
     let isTrack = toRef(state, 'isTrack')
@@ -85,7 +87,7 @@ export default {
       console.log(state.isTrack)
     }
     // console.log(props)
-    return {handlePlayCount ,state,handleTrack};
+    return {handleCount ,state,handleTrack};
   },
   props:['playList']
 
