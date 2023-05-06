@@ -4,11 +4,13 @@ import MusicListDetail from '../views/MusicListDetail.vue'
 
 const routes = [
   {
+    meta: { requiresAudio: true, requiresFooterMenu: true },
     path: '/',
     name: 'home',
     component: HomeView
   },
   {
+    meta: { requiresAudio: true, requiresFooterMenu: false },
     path: '/music-list-detail',
     name: 'music-list-detail',
     component: MusicListDetail

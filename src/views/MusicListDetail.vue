@@ -2,7 +2,7 @@
   <div>
     <detail-top :playList="state.playList"></detail-top>
     <detail-music-list :songList="state.songList"></detail-music-list>
-    <footer-music></footer-music>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -12,7 +12,7 @@ import { onMounted, reactive } from 'vue';
 import { useRoute } from 'vue-router';
 import DetailTop from '@/components/item/DetailTop.vue';
 import DetailMusicList from '@/components/item/DetailMusicList.vue';
-import FooterMusic from "@/components/item/FooterMusic.vue";
+import Footer from '@/components/common/Footer.vue';
 export default {
   setup(){
     const state = reactive({
@@ -38,7 +38,7 @@ export default {
   components:{
     DetailTop,
     DetailMusicList,
-    FooterMusic
+    Footer
   }
 
 }

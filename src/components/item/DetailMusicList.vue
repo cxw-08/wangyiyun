@@ -18,7 +18,7 @@
     </div>
     <div class="songListContent">
       <div class="item" v-for="(item,i) in songList" :key="i">
-        <div class="itemLeft">
+        <div class="itemLeft" @click="playMusic(i)">
           <span class="number">{{ i+1 }}</span>
           <div class="songName">
             <p>{{ item.name }}</p>
@@ -41,10 +41,18 @@
 </template>
 
 <script>
+import { useItemStore } from '@/store'
 export default {
   setup(props){
-    console.log('props',props)
+    // console.log('props',props)
+    const itemStore = useItemStore()
+    const playMusic = (index)=>{
+      console.log(props.songList)
+      itemStore.updatePlayList(props.songList)
+      itemStore.updatePlayListIndex(index)
+    }
 
+    return {playMusic}
   },
   props:['songList']
 

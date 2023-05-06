@@ -2,11 +2,16 @@
   <router-view/>
 </template>
 <script>
-
+// import FooterMenu from '@/components/common/FooterMenu.vue';
 export default {
   setup(){
 
-  }}
+  },
+  components:{
+    // FooterMenu,
+  }
+}
+  
 </script>
 
 <style lang="less">

@@ -1,7 +1,7 @@
-import { createStore } from 'vuex'
+import { defineStore } from 'pinia'
 
-export default createStore({
-  state: {
+export const useItemStore = defineStore('itemStore', {
+  state: () => ({
     playList: [{
       name: "Anything but Ordinary",
       al: {
@@ -11,20 +11,28 @@ export default createStore({
         picUrl: "https://p1.music.126.net/rNWoK0vpHAW1H9kTFKRVig==/109951167596882130.jpg",
         pic_str: "109951167596882130"
       },
-      id: 16431886,
+      id: 2042856159,
       ar: [{
         id: 46490,
         name: "Avril Lavigne",
       }]
     }],
+    isPlay: false,
     playListIndex: 0,//默认下标为0
-  },
-  getters: {
-  },
-  mutations: {
-  },
+  }),
   actions: {
-  },
-  modules: {
+    updateIsPlay(value) {
+      this.isPlay = value
+    },
+    // 更新播放列表
+    updatePlayList(value) {
+      this.playList = value
+    },
+    //更新播放歌曲index
+    updatePlayListIndex(value) {
+      this.playListIndex = value
+    }
   }
 })
+
+

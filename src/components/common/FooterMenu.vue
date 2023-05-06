@@ -1,5 +1,5 @@
 <template>
-  <div class="footer">
+  <div class="footerMenu">
     <div class="footer-item">
       <svg class="icon" aria-hidden="true" :class="{active:true}">
           <use xlink:href="#icon-faxian"></use>
@@ -42,12 +42,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.footer {
+.footerMenu {
   width: 100%;
   height: 60px;
   // background-color: pink;
-  position: fixed;
-  bottom:0;
+  // position: relative;
+  // bottom:0;
   display: flex;
   justify-content: space-around;
   align-items: center;
