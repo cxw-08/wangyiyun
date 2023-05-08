@@ -1,6 +1,6 @@
 <template>
   <div class="footerMusic">
-    <div class="footerLeft">
+    <div class="footerLeft" @click="updatePopShow">
       <img :src="playList[playListIndex].al.picUrl" alt="">
       <div>
         <p class="songContent"><span class="songName">{{ playList[playListIndex].name }}</span><span class="auther"> - {{ playList[playListIndex].ar[0].name }}</span></p>
@@ -20,11 +20,19 @@
     
   </div>
   <audio ref="audio" :src="`https://music.163.com/song/media/outer/url?id=${playList[playListIndex].id}.mp3 `"></audio>
+  <van-popup
+    v-model:show="songDetailShow"
+    position="bottom"
+    :style="{ height: '100%' ,width:'100%'}"
+  >
+    <song-detail :play="play"></song-detail>
+  </van-popup>
 </template>
 
 <script>
+import SongDetail from '@/components/item/SongDetail.vue'
 import {useItemStore} from '@/store/index.js'
-import {computed, onMounted, reactive,ref} from 'vue'
+import {computed, onMounted, reactive,ref, watch} from 'vue'
 export default {
   setup(){
     const itemStore = useItemStore()
@@ -33,24 +41,38 @@ export default {
     const playList = computed(()=> itemStore.playList)
     const playListIndex = computed(()=> itemStore.playListIndex)
     const isPlay = computed(()=> itemStore.isPlay)
+    const songDetailShow = computed(()=> itemStore.songDetailShow)
 
     const play = ()=>{
       if(!itemStore.isPlay){
         audio.value.play()
         itemStore.updateIsPlay(true)
-        // console.log('bofang')
+        console.log('bofang')
       }else {
-        // console.log('pause')
+        console.log('pause')
         audio.value.pause()
         itemStore.updateIsPlay(false)
       }
     }
+    const updatePopShow = ()=>{
+      itemStore.updateSongDetailShow()
+    }
     onMounted(()=>{
       console.log(audio.value.autoplay)
     })
+    watch([playListIndex,playList],()=>{
+      audio.value.autoplay = true
+      if(!itemStore.isPlay){
+        itemStore.updateIsPlay(true)
+      }
+      console.log('index发生了改变')
+    })
 
-    return {play ,audio,playListIndex,playList,isPlay};
+    return {play ,audio,playListIndex,playList,isPlay,songDetailShow,updatePopShow};
   },
+  components:{
+    SongDetail
+  }
 
 }
 </script>
@@ -62,8 +84,6 @@ export default {
   width: 100%;
   height: 1.2rem;
   background-color: #fff;
-  // position:relative;
-  // bottom:0;
   display: flex;
   justify-content: space-between;
   align-items: center;

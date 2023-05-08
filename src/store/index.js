@@ -19,6 +19,7 @@ export const useItemStore = defineStore('itemStore', {
     }],
     isPlay: false,
     playListIndex: 0,//默认下标为0
+    songDetailShow: false,//歌曲详情页的显示
   }),
   actions: {
     updateIsPlay(value) {
@@ -31,6 +32,10 @@ export const useItemStore = defineStore('itemStore', {
     //更新播放歌曲index
     updatePlayListIndex(value) {
       this.playListIndex = value
+    },
+    //是否显示歌曲详情页
+    updateSongDetailShow() {
+      this.songDetailShow = !this.songDetailShow
     }
   }
 })

@@ -41,13 +41,14 @@
 </template>
 
 <script>
+
 import { useItemStore } from '@/store'
 export default {
   setup(props){
     // console.log('props',props)
     const itemStore = useItemStore()
     const playMusic = (index)=>{
-      console.log(props.songList)
+      // console.log(props.songList)
       itemStore.updatePlayList(props.songList)
       itemStore.updatePlayListIndex(index)
     }

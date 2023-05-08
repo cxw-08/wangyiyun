@@ -1,14 +1,15 @@
 <template>
   <router-view/>
+  <Footer></Footer>
 </template>
 <script>
-// import FooterMenu from '@/components/common/FooterMenu.vue';
+import Footer from '@/components/common/Footer.vue';
 export default {
   setup(){
 
   },
   components:{
-    // FooterMenu,
+    Footer
   }
 }
   

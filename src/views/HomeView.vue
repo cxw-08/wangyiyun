@@ -4,7 +4,6 @@
    <SwiperTop/>
    <IconList></IconList>
    <MusicList></MusicList>
-   <Footer></Footer>
   </div>
 </template>
 
@@ -13,7 +12,6 @@ import TopNav from '@/components/home/TopNav.vue';
 import SwiperTop from '@/components/home/SwiperTop.vue';
 import IconList from '@/components/home/IconList.vue';
 import MusicList from '@/components/home/MusicList.vue';
-import Footer from '@/components/common/Footer.vue';
 
 export default {
   name: 'HomeView',
@@ -22,7 +20,6 @@ export default {
     SwiperTop,
     IconList,
     MusicList,
-    Footer
   }
 }
 </script>
