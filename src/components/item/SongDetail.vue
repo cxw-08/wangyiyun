@@ -20,9 +20,9 @@
       </div>
     </div>
     <div class="songContent">
-      <img src="@/asset/images/needle-ab.png" alt="" class="img_needle">
+      <img src="@/asset/images/needle-ab.png" alt="" class="img_needle" :class="{img_needle_active:isPlay}">
       <img src="@/asset/images/disc-plus.png" alt="" class="img_cd">
-      <img :src="playList[playListIndex].al.picUrl" alt="" class="img_al">
+      <img :src="playList[playListIndex].al.picUrl" alt="" class="img_al" :class="{img_al_active:isPlay,img_al_paused:!isPlay}">
     </div>
     <div class="songFooter">
       <div class="footerTop">
@@ -144,6 +144,10 @@ export default {
       left:46%;
       transform-origin: 0 0;
       transform: rotate(-20deg);
+      transition:all 2s;
+    }
+    .img_needle_active {
+      transform: rotate(0deg);
     }
     .img_cd {
       width: 5rem;
@@ -152,12 +156,28 @@ export default {
       bottom: 2.3rem;
       z-index:-1;
     }
+    @keyframes rotate {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
     .img_al {
       width: 3.2rem;
       height: 3.2rem;
       border-radius: 50%;
       position:absolute;
       bottom: 3.2rem;
+      animation: rotate 10s linear infinite;
+      // animation-play-state: paused;
+    }
+    .img_al_active {
+      animation-play-state: running;
+    }
+    .img_al_paused {
+      animation-play-state:paused;
     }
   }
   .songFooter {
