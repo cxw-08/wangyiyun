@@ -19,10 +19,13 @@
         </svg>
       </div>
     </div>
-    <div class="songContent">
+    <div class="songContent" v-show="isLyricShow">
       <img src="@/asset/images/needle-ab.png" alt="" class="img_needle" :class="{img_needle_active:isPlay}">
       <img src="@/asset/images/disc-plus.png" alt="" class="img_cd">
       <img :src="playList[playListIndex].al.picUrl" alt="" class="img_al" :class="{img_al_active:isPlay,img_al_paused:!isPlay}">
+    </div>
+    <div class="songLyric">
+      <p v-for="item in lyricList" :key="item">{{ item.lrc }}</p>
     </div>
     <div class="songFooter">
       <div class="footerTop">
@@ -69,24 +72,41 @@
 
 <script>
 import {useItemStore} from '@/store/index.js'
-import { onMounted ,computed} from 'vue'
+import { onMounted ,computed,ref} from 'vue'
 import { Vue3Marquee } from 'vue3-marquee'
 import 'vue3-marquee/dist/style.css'
 
 export default {
   setup(){
+    let isLyricShow = ref(false)
     const itemStore = useItemStore()
     const playList = computed(()=> itemStore.playList)
     const playListIndex = computed(()=> itemStore.playListIndex)
     const isPlay = computed(()=> itemStore.isPlay)
+    const lyricList = computed(()=>{
+      let arr = itemStore.lyricList.lyric.split(/\n/).map((item,i)=>{
+        let min = item.slice(1,3)
+        let sec = item.slice(4,6)
+        let mill=item.slice(item.indexOf('.')+1,item.indexOf(']'))
+        let lrc = item.slice(11,item.length)
+        let time = parseInt(min) * 60 * 1000 + parseInt(sec) * 1000 +parseInt(mill)
+        // console.log(min,sec,mill,lrc)
+        return {time,lrc}
+      })
+      arr.pop()
+      console.log('arr',arr)
+      return arr
+    })
     onMounted(()=>{
       console.log('playlist::::::',playList)
+      console.log('lyric',itemStore.lyricList.lyric.split(/\n/))
+
     })
     const closePopup = ()=>{
       itemStore.updateSongDetailShow()
     }
     return {
-      playList,playListIndex,closePopup,isPlay
+      playList,playListIndex,closePopup,isPlay,isLyricShow,lyricList
     }
   },
   props:['play'],
@@ -180,8 +200,23 @@ export default {
       animation-play-state:paused;
     }
   }
+  .songLyric {
+    margin-top:0.3rem;
+    width: 100%;
+    height: 9rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: scroll;
+    p {
+      color:#e1dddd;
+      margin-bottom: .3rem;
+    }
+  }
   .songFooter {
     width: 100%;
+    position: absolute;
+    bottom:0;
     .footerTop {
       padding-left: .2rem;
       width: 100%;

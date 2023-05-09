@@ -32,12 +32,13 @@
 <script>
 import SongDetail from '@/components/item/SongDetail.vue'
 import {useItemStore} from '@/store/index.js'
-import {computed, onMounted, reactive,ref, watch} from 'vue'
+import {computed, onMounted, onUpdated, reactive,ref, watch} from 'vue'
 export default {
   setup(){
     const itemStore = useItemStore()
     //播放
     const audio = ref(null)
+    let timer = ref(0)
     const playList = computed(()=> itemStore.playList)
     const playListIndex = computed(()=> itemStore.playListIndex)
     const isPlay = computed(()=> itemStore.isPlay)
@@ -48,17 +49,25 @@ export default {
         audio.value.play()
         itemStore.updateIsPlay(true)
         console.log('bofang')
+        updateTime()
       }else {
+        clearInterval(timer)
         console.log('pause')
         audio.value.pause()
         itemStore.updateIsPlay(false)
+        
       }
     }
     const updatePopShow = ()=>{
       itemStore.updateSongDetailShow()
     }
     onMounted(()=>{
-      console.log(audio.value.autoplay)
+      // console.log(audio.value.autoplay)
+      // console.log(playList[playListIndex].id)
+      itemStore.getLyric(itemStore.playList[itemStore.playListIndex].id)
+    })
+    onUpdated(()=>{
+      itemStore.getLyric(itemStore.playList[itemStore.playListIndex].id)
     })
     watch([playListIndex,playList],()=>{
       audio.value.autoplay = true
@@ -67,6 +76,12 @@ export default {
       }
       console.log('index发生了改变')
     })
+
+    const updateTime = ()=>{
+      timer = setInterval(()=>{
+        itemStore.updateCurrentTime(audio.value.currentTime)
+      },1000)
+    }
 
     return {play ,audio,playListIndex,playList,isPlay,songDetailShow,updatePopShow};
   },

@@ -18,3 +18,11 @@ export function getAllMusicList(id) {
 
   })
 }
+
+//获取歌词里面的歌曲
+export function getMusicLyric(id) {
+  return service({
+    method: 'GET',
+    url: `/lyric?id=${id}`
+  })
+}
