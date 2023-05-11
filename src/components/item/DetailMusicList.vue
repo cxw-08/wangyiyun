@@ -18,7 +18,7 @@
     </div>
     <div class="songListContent">
       <div class="item" v-for="(item,i) in songList" :key="i">
-        <div class="itemLeft" @click="playMusic(i)">
+        <div class="itemLeft" @click="playMusic(i,item.id)">
           <span class="number">{{ i+1 }}</span>
           <div class="songName">
             <p>{{ item.name }}</p>
@@ -49,10 +49,11 @@ export default {
     // songList = reactive([])
     // console.log('props',props)
     const itemStore = useItemStore()
-    const playMusic = (index)=>{
+    const playMusic = (index,id)=>{
       // console.log(props.songList)
       itemStore.updatePlayList(props.songList)
       itemStore.updatePlayListIndex(index)
+      itemStore.getMusicUrl(id)
     }
     
 

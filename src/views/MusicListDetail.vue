@@ -25,8 +25,8 @@ export default {
       // 获取播放列表
       let result = await getAllMusicList(id)
       state.songList = result.data.songs
-      console.log('result',result)
-      console.log('plallist::',res.data.playlist)
+      // console.log('result',result)
+      // console.log('plallist::',res.data.playlist)
       //防止页面刷新数据丢失，把数据保存在sessionStorage里面
       sessionStorage.setItem('musicDetail',JSON.stringify(state))
 

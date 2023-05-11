@@ -26,3 +26,11 @@ export function getMusicLyric(id) {
     url: `/lyric?id=${id}`
   })
 }
+
+//获取音乐的URL
+export function getMusicUrl(id) {
+  return service({
+    method: 'GET',
+    url: `/song/url?id=${id}`
+  })
+}

@@ -84,7 +84,7 @@ export default {
       // 收藏这部分设计到时候要考虑登录情况
       //。。。
       isTrack.value = !isTrack.value
-      console.log(state.isTrack)
+      // console.log(state.isTrack)
     }
     // console.log(props)
     return {handleCount ,state,handleTrack};

@@ -49,11 +49,11 @@ export default {
       if(!itemStore.isPlay){
         audio.value.play()
         itemStore.updateIsPlay(true)
-        console.log('bofang')
+        // console.log('bofang')
         updateTime()
       }else {
         clearInterval(timer)
-        console.log('pause')
+        // console.log('pause')
         audio.value.pause()
         itemStore.updateIsPlay(false)
         

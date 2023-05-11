@@ -106,14 +106,14 @@ export default {
           item.nextTime = arr[i+1].time
         }
       });
-      console.log('arr',arr)
+      // console.log('arr',arr)
       return arr
     })
     onMounted(()=>{
       // console.log('打开歌曲详情')
       props.durationChange()
-      console.log('propsss',props)
-      console.log('playlist::::::',playList)
+      // console.log('propsss',props)
+      // console.log('playlist::::::',playList)
       // console.log('lyric',itemStore.lyricList.lyric.split(/\n/))
 
     })

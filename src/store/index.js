@@ -1,4 +1,5 @@
 import { getMusicLyric } from '@/request/api/item'
+import { getMusicUrl } from '@/request/api/item'
 import { defineStore } from 'pinia'
 
 export const useItemStore = defineStore('itemStore', {
@@ -24,6 +25,7 @@ export const useItemStore = defineStore('itemStore', {
     lyricList: {},//歌词部分
     currentTime: 0,// 当前播放时间
     duration: 0,//歌曲总时长
+    musicUrl: '',//当前歌曲的url
   }),
   actions: {
 
@@ -34,10 +36,13 @@ export const useItemStore = defineStore('itemStore', {
     // 更新播放列表
     updatePlayList(value) {
       this.playList = value
+      console.log('updatePlayList', this.playList)
     },
     //更新播放歌曲index
     updatePlayListIndex(value) {
       this.playListIndex = value
+      console.log('updatePlayListIndex')
+
     },
     //是否显示歌曲详情页
     updateSongDetailShow() {
@@ -54,14 +59,21 @@ export const useItemStore = defineStore('itemStore', {
     UpdateLyricList(value) {
       this.lyricList = value
     },
+
+    //
+    async updateMusicUrl(value) {
+      let res = await getMusicUrl(value)
+      console.log('musicUrl::', res)
+    },
     updateCurrentTime(value) {
       this.currentTime = value
-      console.log(this.currentTime)
+      // console.log(this.currentTime)
     },
     updateDuration(value) {
       this.duration = value
-      console.log('this.duration', this.duration)
+      // console.log('this.duration', this.duration)
     }
+
   }
 })
 
