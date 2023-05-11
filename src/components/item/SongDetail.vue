@@ -19,13 +19,13 @@
         </svg>
       </div>
     </div>
-    <div class="songContent" v-show="isLyricShow">
+    <div class="songContent" v-show="!isLyricShow" @click="isLyricShow = true">
       <img src="@/asset/images/needle-ab.png" alt="" class="img_needle" :class="{img_needle_active:isPlay}">
       <img src="@/asset/images/disc-plus.png" alt="" class="img_cd">
       <img :src="playList[playListIndex].al.picUrl" alt="" class="img_al" :class="{img_al_active:isPlay,img_al_paused:!isPlay}">
     </div>
-    <div class="songLyric">
-      <p v-for="item in lyricList" :key="item">{{ item.lrc }}</p>
+    <div class="songLyric" ref="musicLyric" v-show="isLyricShow" @click="isLyricShow = false">
+      <p v-for="item in lyricList" :key="item" :class="{active:(currentTime * 1000 >=  item.time && currentTime * 1000 <= item.nextTime)}">{{ item.lrc }}</p>
     </div>
     <div class="songFooter">
       <div class="footerTop">
@@ -45,21 +45,23 @@
           <use xlink:href="#icon-gengduo1"></use>
         </svg>
       </div>
-      <div class="footerContent"></div>
+      <div class="footerContent">
+        <input type="range" min="0" :max="duration" v-model="currentTime" step="0.05" class="range">
+      </div>
       <div class="footer">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-cxw_music85-copy"></use>
         </svg>
-        <svg class="icon" aria-hidden="true">
+        <svg class="icon" aria-hidden="true" @click="goPlay(-1)">
           <use xlink:href="#icon-cxw_music83-copy"></use>
         </svg>
-        <svg v-if='!isPlay' class="icon big" aria-hidden="true" @click="play">
+        <svg v-show='!isPlay' class="icon big" aria-hidden="true" @click="play">
           <use xlink:href="#icon-bofang3" @click="play"></use>
         </svg>
-        <svg v-else class="icon big" aria-hidden="true" @click="play">
+        <svg v-show='isPlay' class="icon big" aria-hidden="true" @click="play">
           <use xlink:href="#icon-yuyinzhengzaibofang"></use>
         </svg>
-        <svg class="icon" aria-hidden="true">
+        <svg class="icon" aria-hidden="true" @click="goPlay(1)" >
           <use xlink:href="#icon-cxw_music82-copy"></use>
         </svg>
         <svg class="icon mini" aria-hidden="true">
@@ -72,17 +74,20 @@
 
 <script>
 import {useItemStore} from '@/store/index.js'
-import { onMounted ,computed,ref} from 'vue'
+import { onMounted ,computed,ref,watch} from 'vue'
 import { Vue3Marquee } from 'vue3-marquee'
 import 'vue3-marquee/dist/style.css'
 
 export default {
-  setup(){
+  setup(props){
     let isLyricShow = ref(false)
+    const musicLyric = ref(null)
     const itemStore = useItemStore()
     const playList = computed(()=> itemStore.playList)
     const playListIndex = computed(()=> itemStore.playListIndex)
     const isPlay = computed(()=> itemStore.isPlay)
+    const currentTime = computed(()=> itemStore.currentTime)
+    const duration = computed(()=> itemStore.duration)
     const lyricList = computed(()=>{
       let arr = itemStore.lyricList.lyric.split(/\n/).map((item,i)=>{
         let min = item.slice(1,3)
@@ -94,22 +99,56 @@ export default {
         return {time,lrc}
       })
       arr.pop()
+      arr.forEach((item,i) => {
+        if(i === arr.length -1){
+          item.nextTime = 1000000
+        }else {
+          item.nextTime = arr[i+1].time
+        }
+      });
       console.log('arr',arr)
       return arr
     })
     onMounted(()=>{
+      // console.log('打开歌曲详情')
+      props.durationChange()
+      console.log('propsss',props)
       console.log('playlist::::::',playList)
-      console.log('lyric',itemStore.lyricList.lyric.split(/\n/))
+      // console.log('lyric',itemStore.lyricList.lyric.split(/\n/))
 
     })
+    watch(currentTime,(value)=>{
+      let p = document.querySelector('p.active')
+      if(p && p.offsetTop > 280){
+        // console.log('refffff::',musicLyric.value)
+        musicLyric.value.scrollTop = p.offsetTop -280
+        console.log('offetTop:::',p.offsetTop)
+      }
+      if(value >= itemStore.duration){
+        goPlay(1)
+      }
+    })
     const closePopup = ()=>{
+      isLyricShow.value = false
+      // console.log('关闭')
+      console.log('isLyricShow',isLyricShow)
       itemStore.updateSongDetailShow()
     }
+
+    const goPlay = (num)=>{
+      let index = itemStore.playListIndex + num
+      if(index < 0){
+        index = itemStore.playList.length -1
+      }else if (index === itemStore.playList.length){
+        index = 0
+      }
+      itemStore.updatePlayListIndex(index)
+    }
     return {
-      playList,playListIndex,closePopup,isPlay,isLyricShow,lyricList
+      playList,playListIndex,closePopup,isPlay,isLyricShow,lyricList,currentTime,musicLyric,goPlay,duration
     }
   },
-  props:['play'],
+  props:['play','durationChange'],
   components:{
     Vue3Marquee
   }
@@ -212,6 +251,10 @@ export default {
       color:#e1dddd;
       margin-bottom: .3rem;
     }
+    .active {
+      color: #fff;
+      font-size:.4rem;
+    }
   }
   .songFooter {
     width: 100%;
@@ -227,6 +270,12 @@ export default {
       .icon {
         width: .6rem;
         height: .6rem;
+      }
+    }
+    .footerContent {
+      .range {
+        width: 100%;
+        height: .02rem;
       }
     }
     .footer {

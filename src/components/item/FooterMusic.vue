@@ -25,7 +25,8 @@
     position="bottom"
     :style="{ height: '100%' ,width:'100%'}"
   >
-    <song-detail :play="play"></song-detail>
+    <song-detail :play="play" :durationChange="durationChange"></song-detail>
+
   </van-popup>
 </template>
 
@@ -82,8 +83,11 @@ export default {
         itemStore.updateCurrentTime(audio.value.currentTime)
       },1000)
     }
+    const durationChange = ()=>{
+      itemStore.updateDuration(audio.value.duration)
+    }
 
-    return {play ,audio,playListIndex,playList,isPlay,songDetailShow,updatePopShow};
+    return {play ,audio,playListIndex,playList,isPlay,songDetailShow,updatePopShow,durationChange};
   },
   components:{
     SongDetail

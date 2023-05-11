@@ -43,8 +43,10 @@
 <script>
 
 import { useItemStore } from '@/store'
+
 export default {
   setup(props){
+    // songList = reactive([])
     // console.log('props',props)
     const itemStore = useItemStore()
     const playMusic = (index)=>{
@@ -52,6 +54,7 @@ export default {
       itemStore.updatePlayList(props.songList)
       itemStore.updatePlayListIndex(index)
     }
+    
 
     return {playMusic}
   },

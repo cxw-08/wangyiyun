@@ -22,9 +22,12 @@ export const useItemStore = defineStore('itemStore', {
     playListIndex: 0,//默认下标为0
     songDetailShow: false,//歌曲详情页的显示
     lyricList: {},//歌词部分
-    currentTime: 0 // 当前播放时间
+    currentTime: 0,// 当前播放时间
+    duration: 0,//歌曲总时长
   }),
   actions: {
+
+    // 点击播放音乐
     updateIsPlay(value) {
       this.isPlay = value
     },
@@ -45,7 +48,7 @@ export const useItemStore = defineStore('itemStore', {
     async getLyric(value) {
       let res = await getMusicLyric(value)
       this.UpdateLyricList(res.data.lrc)
-      console.log('getLyric', res)
+      // console.log('getLyric', res)
     },
     //
     UpdateLyricList(value) {
@@ -54,6 +57,10 @@ export const useItemStore = defineStore('itemStore', {
     updateCurrentTime(value) {
       this.currentTime = value
       console.log(this.currentTime)
+    },
+    updateDuration(value) {
+      this.duration = value
+      console.log('this.duration', this.duration)
     }
   }
 })
