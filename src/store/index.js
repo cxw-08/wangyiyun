@@ -41,6 +41,7 @@ export const useItemStore = defineStore('itemStore', {
     //更新播放歌曲index
     updatePlayListIndex(value) {
       this.playListIndex = value
+      this.getMusicUrl(this.playList[this.playListIndex].id)
       console.log('updatePlayListIndex')
 
     },
@@ -60,10 +61,11 @@ export const useItemStore = defineStore('itemStore', {
       this.lyricList = value
     },
 
-    //
-    async updateMusicUrl(value) {
+    //获取并更新音乐的url
+    async getMusicUrl(value) {
       let res = await getMusicUrl(value)
       console.log('musicUrl::', res)
+      this.musicUrl = res.data.data[0].url
     },
     updateCurrentTime(value) {
       this.currentTime = value
@@ -71,7 +73,7 @@ export const useItemStore = defineStore('itemStore', {
     },
     updateDuration(value) {
       this.duration = value
-      // console.log('this.duration', this.duration)
+      console.log('this.duration', this.duration)
     }
 
   }

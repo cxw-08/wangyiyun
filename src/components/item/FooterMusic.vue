@@ -19,13 +19,13 @@
     </div>
     
   </div>
-  <audio ref="audio" :src="`https://music.163.com/song/media/outer/url?id=${playList[playListIndex].id}.mp3 `"></audio>
+  <audio ref="audio" :src="musicUrl"></audio>
   <van-popup
     v-model:show="songDetailShow"
     position="bottom"
     :style="{ height: '100%' ,width:'100%'}"
   >
-    <song-detail :play="play" :durationChange="durationChange"></song-detail>
+    <song-detail @play="play" @durationChange="durationChange"></song-detail>
 
   </van-popup>
 </template>
@@ -44,19 +44,22 @@ export default {
     const playListIndex = computed(()=> itemStore.playListIndex)
     const isPlay = computed(()=> itemStore.isPlay)
     const songDetailShow = computed(()=> itemStore.songDetailShow)
+    const musicUrl = computed(()=> itemStore.musicUrl)
 
     const play = ()=>{
       if(!itemStore.isPlay){
         audio.value.play()
         itemStore.updateIsPlay(true)
         // console.log('bofang')
-        updateTime()
+        // 开启一个定时器
+        timer = setInterval(()=>{
+          itemStore.updateCurrentTime(audio.value.currentTime)
+        },1000)
       }else {
         clearInterval(timer)
         // console.log('pause')
         audio.value.pause()
         itemStore.updateIsPlay(false)
-        
       }
     }
     const updatePopShow = ()=>{
@@ -71,23 +74,24 @@ export default {
       itemStore.getLyric(itemStore.playList[itemStore.playListIndex].id)
     })
     watch([playListIndex,playList],()=>{
+      itemStore.updateDuration(audio.value.duration)
       audio.value.autoplay = true
+      if(timer){
+        clearInterval(timer)
+      }
+      timer = setInterval(()=>{
+        itemStore.updateCurrentTime(audio.value.currentTime)
+      },1000)
       if(!itemStore.isPlay){
         itemStore.updateIsPlay(true)
       }
       console.log('index发生了改变')
     })
-
-    const updateTime = ()=>{
-      timer = setInterval(()=>{
-        itemStore.updateCurrentTime(audio.value.currentTime)
-      },1000)
-    }
     const durationChange = ()=>{
       itemStore.updateDuration(audio.value.duration)
     }
 
-    return {play ,audio,playListIndex,playList,isPlay,songDetailShow,updatePopShow,durationChange};
+    return {play ,audio,playListIndex,playList,isPlay,songDetailShow,updatePopShow,durationChange,musicUrl};
   },
   components:{
     SongDetail

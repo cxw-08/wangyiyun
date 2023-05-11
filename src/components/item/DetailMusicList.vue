@@ -53,7 +53,6 @@ export default {
       // console.log(props.songList)
       itemStore.updatePlayList(props.songList)
       itemStore.updatePlayListIndex(index)
-      itemStore.getMusicUrl(id)
     }
     
 

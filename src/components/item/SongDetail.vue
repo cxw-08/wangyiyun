@@ -47,6 +47,7 @@
       </div>
       <div class="footerContent">
         <input type="range" min="0" :max="duration" v-model="currentTime" step="0.05" class="range">
+        <span class="duration">{{ duration }}</span>
       </div>
       <div class="footer">
         <svg class="icon" aria-hidden="true">
@@ -55,10 +56,10 @@
         <svg class="icon" aria-hidden="true" @click="goPlay(-1)">
           <use xlink:href="#icon-cxw_music83-copy"></use>
         </svg>
-        <svg v-show='!isPlay' class="icon big" aria-hidden="true" @click="play">
+        <svg v-show='!isPlay' class="icon big" aria-hidden="true" @click="$emit('play')">
           <use xlink:href="#icon-bofang3" @click="play"></use>
         </svg>
-        <svg v-show='isPlay' class="icon big" aria-hidden="true" @click="play">
+        <svg v-show='isPlay' class="icon big" aria-hidden="true" @click="$emit('play')">
           <use xlink:href="#icon-yuyinzhengzaibofang"></use>
         </svg>
         <svg class="icon" aria-hidden="true" @click="goPlay(1)" >
@@ -79,7 +80,8 @@ import { Vue3Marquee } from 'vue3-marquee'
 import 'vue3-marquee/dist/style.css'
 
 export default {
-  setup(props){
+  emits:['play','durationChange'],
+  setup(props,ctx){
     let isLyricShow = ref(false)
     const musicLyric = ref(null)
     const itemStore = useItemStore()
@@ -111,7 +113,8 @@ export default {
     })
     onMounted(()=>{
       // console.log('打开歌曲详情')
-      props.durationChange()
+      // props.durationChange()
+      ctx.emit('durationChange')
       // console.log('propsss',props)
       // console.log('playlist::::::',playList)
       // console.log('lyric',itemStore.lyricList.lyric.split(/\n/))
@@ -148,7 +151,7 @@ export default {
       playList,playListIndex,closePopup,isPlay,isLyricShow,lyricList,currentTime,musicLyric,goPlay,duration
     }
   },
-  props:['play','durationChange'],
+  // props:['play','durationChange'],
   components:{
     Vue3Marquee
   }
@@ -242,14 +245,16 @@ export default {
   .songLyric {
     margin-top:0.3rem;
     width: 100%;
-    height: 9rem;
+    height: 8.6rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow: scroll;
     p {
+      width:5rem;
       color:#e1dddd;
       margin-bottom: .3rem;
+      text-align: center;
     }
     .active {
       color: #fff;
@@ -276,6 +281,10 @@ export default {
       .range {
         width: 100%;
         height: .02rem;
+      }
+      .duration {
+        color: #e1dddd;
+        font-size:0.25rem;
       }
     }
     .footer {
