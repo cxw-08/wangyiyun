@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import MusicListDetail from '../views/MusicListDetail.vue'
+import Search from '../views/Search.vue'
 
 const routes = [
   {
@@ -14,6 +15,12 @@ const routes = [
     path: '/music-list-detail',
     name: 'music-list-detail',
     component: MusicListDetail
+  },
+  {
+    // meta: { requiresAudio: false, requiresFooterMenu: false },
+    path: '/search',
+    name: 'search',
+    component: Search
   },
 ]
 

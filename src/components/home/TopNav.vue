@@ -5,14 +5,17 @@
         <use xlink:href="#icon-menu"></use>
       </svg>
     </div>
-    <div class="topSearch">
-      <van-cell-group inset>
-        <van-field v-model="value" left-icon="smile-o" right-icon="warning-o" placeholder="显示图标" />
-      </van-cell-group>
+    <!-- @click="$router.push('/search')" -->
+    <div class="topSearch" @click="$router.push('/search')" >
+      <van-search
+        v-model="value"
+        shape="round"
+        placeholder="请输入搜索关键词"
+        />
     </div>
     <div class="topRight">
       <svg class="icon" aria-hidden="true">
-        <use xlink:href="#icon-sousuo"></use>
+        <use xlink:href="#icon-huatong"></use>
       </svg>
     </div>
 
@@ -36,6 +39,9 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items:center;
-  // background-color: gray;
+  // background-color: gray
+  .topSearch {
+    width: 5rem;
+  }
 }
 </style>
