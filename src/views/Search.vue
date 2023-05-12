@@ -8,42 +8,73 @@
       </div>
       <div class="searchContent">
         <van-search
+          background="#f3f0f0"
           ref="search"
           v-model="searchKey"
           shape="round"
           placeholder="请输入搜索关键词"
           />
       </div>
-      <div class="topRight">
+      <div class="topRight" @click="handleSearch">
         搜索
       </div>
     </div>
     <div class="searchHistory">
       <div class="titile">
         <span class="left">搜索历史</span>
-        <svg class="icon" aria-hidden="true" @click="$router.go(-1)">
+        <svg class="icon" aria-hidden="true" @click="handleSearchHistory">
           <use xlink:href="#icon-ashbin"></use>
         </svg>
       </div>
       <div class="historyContent">
-        <span>周杰伦</span>
+        <span v-for="item in searchHistoryList" :key="item">{{ item }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 const searchKey = ref()
 const search = ref()
+const searchHistoryList = reactive([])
 onMounted(()=>{
   search.value.focus()
+  // console.log(JSON.parse(localStorage.getItem('searchHistoryList')))
+  if(JSON.parse(localStorage.getItem('searchHistoryList'))){
+    searchHistoryList.push(...JSON.parse(localStorage.getItem('searchHistoryList')))
+  }
+  
 })
+
+const handleSearch = ()=>{
+  console.log(searchKey.value)
+  if(searchKey.value){
+    let index = searchHistoryList.indexOf(searchKey.value)
+    if( index === -1){
+      searchHistoryList.unshift(searchKey.value)
+    }else {
+      searchHistoryList.splice(index,1)
+      searchHistoryList.unshift(searchKey.value)
+    }
+    //固定长度设置
+    if(searchHistoryList.length > 6){
+      console.log('固定长度')
+      searchHistoryList.splice(searchHistoryList.length-1,1)
+    }
+    localStorage.setItem('searchHistoryList',JSON.stringify(searchHistoryList))
+  }
+}
+const handleSearchHistory = ()=>{
+  localStorage.removeItem('searchHistoryList')
+  searchHistoryList.length = 0
+  // localStorage.setItem('searchHistoryList',JSON.stringify(searchHistoryList))
+}
 </script>
 
 <style lang="less" scoped>
 .top {
-  background-color: #f1ecec;
+  background-color: #f3f0f0;
   .searchTop {
     width: 100%;
     height: 1rem;
@@ -70,15 +101,20 @@ onMounted(()=>{
       align-content: center;
     }
     .historyContent {
-      padding:10px;
-      div {
-        padding:10px;
+      padding:.2rem;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      span {
+        margin: .1rem;
+        display: inline-block;
+        padding:.2rem;
         background-color:#fff;
         color: #726e6e;
-        height: 28px;
-        border-radius: 10px;
-        font-size:22px;
-        line-height: 28px;
+        height: .56rem;
+        border-radius: .28rem;
+        font-size:.24rem;
+        line-height: .16rem;
       }
     }
   }
