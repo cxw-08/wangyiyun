@@ -15,3 +15,19 @@ export function getMusicList() {
     url: '/personalized?limit=10'
   })
 }
+
+//实现搜索功能
+export function getSearchKeywords(data) {
+  return service({
+    method: 'GET',
+    url: `/cloudsearch?keywords=${data}`
+  });
+}
+
+//获取热搜列表
+export function getHotSearchList() {
+  return service({
+    method: 'GET',
+    url: '/search/hot/detail'
+  });
+}

@@ -17,7 +17,7 @@ const routes = [
     component: MusicListDetail
   },
   {
-    // meta: { requiresAudio: false, requiresFooterMenu: false },
+    meta: { requiresAudio: true, requiresFooterMenu: false },
     path: '/search',
     name: 'search',
     component: Search
