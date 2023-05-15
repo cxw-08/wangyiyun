@@ -29,6 +29,11 @@ export const useItemStore = defineStore('itemStore', {
   }),
   actions: {
 
+    //将搜索的歌曲添加到播放列表
+    addPlayListItem(value) {
+      this.playList.splice(this.playListIndex + 1, 0, value)
+    },
+
     // 点击播放音乐
     updateIsPlay(value) {
       this.isPlay = value

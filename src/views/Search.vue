@@ -30,10 +30,24 @@
           <van-swipe-item class="hotList-item">
             <h3 class="title">热搜榜</h3>
             <div class="hotKeywords">
-              <div class="item" v-for="(item, i) in hotSearchList" :key="item">
+              <div class="item" v-for="(item, i) in hotSearchList" :key="i" @click="handleClickKeywords(item.searchWord)">
                 <span class="number">{{ i + 1 }}</span>
                 <div class="keyWords">
                   {{ item.searchWord }}
+                  <i if="item.iconUrl" class="icon"></i>
+                </div>
+              </div>
+            </div>
+          </van-swipe-item>
+          
+          <van-swipe-item class="hotList-item">
+            <h3 class="title">热搜榜</h3>
+            <div class="hotKeywords">
+              <div class="item" v-for="(item, i) in hotSearchList" :key="i" @click="handleClickKeywords(item.searchWord)">
+                <span class="number">{{ i + 1 }}</span>
+                <div class="keyWords">
+                  {{ item.searchWord }}
+                  <i if="item.iconUrl" class="icon"></i>
                 </div>
               </div>
             </div>
@@ -41,32 +55,21 @@
           <van-swipe-item class="hotList-item">
             <h3 class="title">热搜榜</h3>
             <div class="hotKeywords">
-              <div class="item">
-                <span>{{ 1 }}</span>
+              <div class="item" v-for="(item, i) in hotSearchList" :key="i" @click="handleClickKeywords(item.searchWord)">
+                <span class="number">{{ i + 1 }}</span>
                 <div class="keyWords">
-                  {{ 林俊杰 }}
+                  {{ item.searchWord }}
+                  <i if="item.iconUrl" class="icon"></i>
                 </div>
               </div>
             </div>
           </van-swipe-item>
-          <van-swipe-item class="hotList-item">
-            <h3 class="title">热搜榜</h3>
-            <div class="hotKeywords">
-              <div class="item">
-                <span>{{ 1 }}</span>
-                <div class="keyWords">
-                  {{ 林俊杰 }}
-                </div>
-              </div>
-            </div>
-          </van-swipe-item>
-
         </van-swipe>
       </div>
     </div>
     <div class="songListContent" v-show="!showHotList">
       <div class="item" v-for="(item, i) in searchList" :key="i">
-        <div class="itemLeft">
+        <div class="itemLeft" @click="playSearchMusic(item)">
           <span class="number">{{ i + 1 }}</span>
           <div class="songName">
             <p>{{ item.name }}</p>
@@ -90,8 +93,12 @@
 </template>
 
 <script setup>
+import {useItemStore} from '@/store/index.js'
 import { getSearchKeywords, getHotSearchList } from "@/request/api/home";
 import { onMounted, reactive, ref } from "vue";
+
+const itemStore = useItemStore()
+
 const showHotList = ref(true)
 const searchKey = ref()
 const search = ref()
@@ -106,7 +113,7 @@ onMounted(async () => {
   }
   let result = await getHotSearchList()
   hotSearchList.push(...result.data.data)
-  // console.log('getHotSearchList', result)
+  console.log('getHotSearchList', result)
 })
 
 const handleSearch = async () => {
@@ -128,7 +135,7 @@ const handleSearch = async () => {
 
     // 向后台请求数据
     let res = await getSearchKeywords(searchKey.value)
-    console.log(res)
+    // console.log(res)
     searchList.push(...res.data.result.songs)
     showHotList.value = false
     searchKey.value = ''
@@ -146,9 +153,25 @@ const handleHistoryRemove = () => {
 const handleClickHistory = async (data) => {
   // 向后台请求数据
   let res = await getSearchKeywords(data)
-  console.log(res)
+  // console.log(res)
+  searchList.length = 0
   searchList.push(...res.data.result.songs)
   showHotList.value = false
+}
+const handleClickKeywords = async (data)=>{
+  console.log('hotKey::',data)
+  let res = await getSearchKeywords(data)
+  // console.log('searchLIst',searchList)
+  searchList.length = 0
+  searchList.push(...res.data.result.songs)
+  showHotList.value = false
+  console.log('searchList',res)
+
+}
+
+const playSearchMusic = (item)=>{
+  itemStore.addPlayListItem(item)
+  itemStore.updatePlayListIndex(itemStore.playListIndex+1)
 }
 </script>
 
@@ -253,6 +276,14 @@ const handleClickHistory = async (data) => {
 
               .keyWords {
                 font-weight: 700;
+                .icon {
+                  display: inline-block;
+                  width: .5rem;
+                  height: .36rem;
+                  background-repeat: cover;
+                  background-size: .5rem .36rem;
+                  background-image: url(https://p1.music.126.net/2zQ0d1ThZCX5Jtkvks9aOQ==/109951163968000522.png);
+                }
               }
             }
           }
