@@ -1,5 +1,6 @@
 import { getMusicLyric } from '@/request/api/item'
 import { getMusicUrl } from '@/request/api/item'
+import { getPhoneLogin } from '@/request/api/my'
 import { defineStore } from 'pinia'
 
 export const useItemStore = defineStore('itemStore', {
@@ -84,4 +85,20 @@ export const useItemStore = defineStore('itemStore', {
   }
 })
 
+export const useProfileStore = defineStore('profileStore', {
+  state: () => ({
+    loginAccount: ''
+  }),
+  actions: {
+    updateLoginAccount(value) {
+      this.loginAccount = value
+      console.log('loginAccount', this.loginAccount)
+      window.sessionStorage.setItem('loginAccount', this.loginAccount)
+    },
+    async login(code) {
+      let res = await getPhoneLogin({ phone: this.loginAccount, captcha: code })
+      console.log('登录', res)
+    }
+  }
 
+})
