@@ -6,19 +6,10 @@
       </svg>
     </div>
     <!-- @click="$router.push('/search')" -->
-    <div class="topSearch" @click="$router.push('/search')" >
-      <van-search
-        v-model="value"
-        shape="round"
-        placeholder="请输入搜索关键词"
-        />
-    </div>
+   <slot name="middle"></slot>
     <div class="topRight">
-      <svg class="icon" aria-hidden="true">
-        <use xlink:href="#icon-huatong"></use>
-      </svg>
+      <slot name="right"></slot>
     </div>
-
   </div>
 </template>
 
@@ -34,6 +25,10 @@ export default {
 
 <style lang="less">
 .topNav {
+  position: fixed;
+  top:0;
+  z-index: 1;
+  background-color: #fff;
   width: 100%;
   padding: 10px;
   display: flex;
@@ -42,6 +37,11 @@ export default {
   // background-color: gray
   .topSearch {
     width: 5rem;
+  }
+  .topRight {
+    .icon {
+      vertical-align:-0.15em;
+    }
   }
 }
 </style>

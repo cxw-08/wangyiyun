@@ -105,7 +105,7 @@ export default {
   padding:.2rem;
   border-top:1px solid #f0e9e9;
   width: 100%;
-  height: 1.2rem;
+  height: 1rem;
   background-color: #fff;
   display: flex;
   justify-content: space-between;

@@ -1,14 +1,17 @@
 <template>
   <div class="footerMenu">
-    <div class="footer-item">
-      <svg class="icon" aria-hidden="true" :class="{active:true}">
+    <router-link  :to="{path:'/'}">
+      <div class="footer-item">
+      <svg class="icon" aria-hidden="true" :class="{active:isActive}">
           <use xlink:href="#icon-faxian"></use>
       </svg>
       <span>
         发现
       </span>
     </div>
-    <div class="footer-item">
+    </router-link>
+    <router-link :to="{path:'/follow'}">
+      <div class="footer-item">
       <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-cainiwenti"></use>
       </svg>
@@ -16,7 +19,9 @@
         播客
       </span>
     </div>
-    <div class="footer-item">
+    </router-link>
+    <router-link :to="{path:'/community'}">
+      <div class="footer-item">
       <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-shequ"></use>
       </svg>
@@ -24,7 +29,9 @@
         社区
       </span>
     </div>
-    <div class="footer-item">
+    </router-link>
+    <router-link :to="{path:'/profile'}">
+      <div class="footer-item">
       <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-yinle"></use>
       </svg>
@@ -32,20 +39,20 @@
         我的
       </span>
     </div>
+    </router-link>
   </div>
 </template>
 
-<script>
-export default {
-
-}
+<script setup>
+import { ref } from "vue";
+const isActive = ref(true)
 </script>
 
 <style lang="less" scoped>
 .footerMenu {
   width: 100%;
   height: 60px;
-  // background-color: pink;
+  // background-color: #fff;
   // position: relative;
   // bottom:0;
   display: flex;

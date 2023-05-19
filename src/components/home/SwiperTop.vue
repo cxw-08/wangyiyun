@@ -27,6 +27,7 @@ export default {
 
 <style lang="less">
 #swiperTop {
+  margin-top:1.48rem;
   .van-swipe {
     width: 100%;
     height: 3rem;

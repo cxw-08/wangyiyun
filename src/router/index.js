@@ -5,6 +5,8 @@ import HomeView from '../views/HomeView.vue'
 import MusicListDetail from '../views/MusicListDetail.vue'
 import Search from '../views/Search.vue'
 import Profile from '../views/Profile.vue'
+import Follow from '../views/Follow.vue'
+import Community from '../views/Community.vue'
 
 const routes = [
   ...loginRouters,
@@ -27,15 +29,28 @@ const routes = [
     component: Search
   },
   {
-    // meta: { requiresAudio: true, requiresFooterMenu: false },
+    meta: { requiresAudio: true, requiresFooterMenu: true },
     path: '/profile',
     name: 'profile',
     component: Profile,
   },
+  {
+    meta: { requiresAudio: true, requiresFooterMenu: true },
+    path: '/follow',
+    name: 'follow',
+    component: Follow,
+  },
+  {
+    meta: { requiresAudio: true, requiresFooterMenu: true },
+    path: '/community',
+    name: 'community',
+    component: Community,
+  },
+
 
 ]
 
-console.log('router', routes)
+// console.log('router', routes)
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
