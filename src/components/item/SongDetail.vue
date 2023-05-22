@@ -29,7 +29,14 @@
     </div>
     <div class="songFooter">
       <div class="footerTop">
-        <svg class="icon" aria-hidden="true">
+        <!-- 点亮爱心 -->
+        <transition enter-active-class="animate__animated animate__heartBeat">
+          <svg class="icon" aria-hidden="true" v-show="liked" @click="liked=!liked">
+            <use xlink:href="#icon-cxw_music90-copy"></use>
+          </svg>
+        </transition>
+          <!-- 没有点亮 -->
+        <svg class="icon" aria-hidden="true" v-show="!liked" @click="liked=!liked">
           <use xlink:href="#icon-cxw_music89-copy"></use>
         </svg>
         <svg class="icon" aria-hidden="true">
@@ -77,11 +84,15 @@
 import {useItemStore} from '@/store/index.js'
 import { onMounted ,computed,ref,watch} from 'vue'
 import { Vue3Marquee } from 'vue3-marquee'
+// 引入走马灯
 import 'vue3-marquee/dist/style.css'
+// 引入动画特效
+import 'animate.css'
 
 export default {
   emits:['play','durationChange'],
   setup(props,ctx){
+    const liked = ref(false)
     let isLyricShow = ref(false)
     const musicLyric = ref(null)
     const itemStore = useItemStore()
@@ -148,7 +159,7 @@ export default {
       itemStore.updatePlayListIndex(index)
     }
     return {
-      playList,playListIndex,closePopup,isPlay,isLyricShow,lyricList,currentTime,musicLyric,goPlay,duration
+      playList,playListIndex,closePopup,isPlay,isLyricShow,lyricList,currentTime,musicLyric,goPlay,duration,liked
     }
   },
   // props:['play','durationChange'],
@@ -266,6 +277,10 @@ export default {
     position: absolute;
     bottom:0;
     .footerTop {
+
+      .fade-enter-active {
+        transition: all 1s ease ;
+      }
       padding-left: .2rem;
       width: 100%;
       height: 60px;

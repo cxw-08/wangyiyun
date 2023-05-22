@@ -2,7 +2,7 @@
   <div class="footerMenu">
     <router-link  :to="{path:'/'}">
       <div class="footer-item">
-      <svg class="icon" aria-hidden="true" :class="{active:isActive}">
+      <svg class="icon" aria-hidden="true" :class="{ active: activeIndex === 0 }" @click="activeIndex = 0">
           <use xlink:href="#icon-faxian"></use>
       </svg>
       <span>
@@ -12,7 +12,7 @@
     </router-link>
     <router-link :to="{path:'/follow'}">
       <div class="footer-item">
-      <svg class="icon" aria-hidden="true">
+      <svg class="icon" aria-hidden="true" :class="{ active: activeIndex === 1 }" @click="activeIndex = 1">
           <use xlink:href="#icon-cainiwenti"></use>
       </svg>
       <span>
@@ -22,7 +22,7 @@
     </router-link>
     <router-link :to="{path:'/community'}">
       <div class="footer-item">
-      <svg class="icon" aria-hidden="true">
+      <svg class="icon" aria-hidden="true" :class="{ active: activeIndex === 2 }" @click="activeIndex = 2">
           <use xlink:href="#icon-shequ"></use>
       </svg>
       <span>
@@ -32,7 +32,7 @@
     </router-link>
     <router-link :to="{path:'/profile'}">
       <div class="footer-item">
-      <svg class="icon" aria-hidden="true">
+      <svg class="icon" aria-hidden="true" :class="{ active: activeIndex === 3 }" @click="activeIndex = 3">
           <use xlink:href="#icon-yinle"></use>
       </svg>
       <span>
@@ -45,7 +45,8 @@
 
 <script setup>
 import { ref } from "vue";
-const isActive = ref(true)
+import 'animate.css';
+const activeIndex = ref(0)
 </script>
 
 <style lang="less" scoped>

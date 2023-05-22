@@ -1,6 +1,6 @@
 <template>
   <div class="topNav">
-    <div class="topLeft">
+    <div class="topLeft" @click="showSetting">
       <svg class="icon" aria-hidden="true">
         <use xlink:href="#icon-menu"></use>
       </svg>
@@ -10,16 +10,24 @@
     <div class="topRight">
       <slot name="right"></slot>
     </div>
+    <Teleport to="body">
+      <van-popup
+        v-model:show="showLeftPopup"
+        position="left"
+        :style="{ width: '70%', height: '100%' }"
+      >
+      <PopupLeft></PopupLeft>
+    </van-popup>
+    </Teleport>
   </div>
 </template>
 
-<script>
-import { ref } from 'vue';
-export default {
-  setup() {
-    const value = ref('');
-    return { value };
-  },
+<script setup>
+import PopupLeft from './PopupLeft.vue'
+import { ref } from "vue"
+const showLeftPopup = ref(false)
+const showSetting = ()=>{
+  showLeftPopup.value = true
 }
 </script>
 
