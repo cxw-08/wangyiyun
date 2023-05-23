@@ -8,6 +8,7 @@ import Profile from '../views/Profile.vue'
 import Follow from '../views/Follow.vue'
 import Community from '../views/Community.vue'
 
+
 const routes = [
   ...loginRouters,
   {
@@ -45,6 +46,23 @@ const routes = [
     path: '/community',
     name: 'community',
     component: Community,
+    children: [
+      {
+        path: 'guangchang',
+        name: 'guangchang',
+        component: () => import('@/components/community/GuangChang.vue')
+      },
+      {
+        path: 'video',
+        name: 'video',
+        component: () => import('@/components/community/Video.vue')
+      },
+      {
+        path: 'room',
+        name: 'room',
+        component: () => import('@/components/community/Room.vue')
+      },
+    ]
   },
 
 

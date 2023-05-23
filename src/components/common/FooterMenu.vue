@@ -1,8 +1,8 @@
 <template>
   <div class="footerMenu">
     <router-link  :to="{path:'/'}">
-      <div class="footer-item">
-      <svg class="icon" aria-hidden="true" :class="{ active: activeIndex === 0 }" @click="activeIndex = 0">
+      <div class="footer-item"  @click="activeIndex = 0">
+      <svg class="icon" aria-hidden="true" :class="{ active: activeIndex === 0 }">
           <use xlink:href="#icon-faxian"></use>
       </svg>
       <span>
@@ -11,8 +11,8 @@
     </div>
     </router-link>
     <router-link :to="{path:'/follow'}">
-      <div class="footer-item">
-      <svg class="icon" aria-hidden="true" :class="{ active: activeIndex === 1 }" @click="activeIndex = 1">
+      <div class="footer-item"  @click="activeIndex = 1">
+      <svg class="icon" aria-hidden="true" :class="{ active: activeIndex === 1 }">
           <use xlink:href="#icon-cainiwenti"></use>
       </svg>
       <span>
@@ -21,8 +21,8 @@
     </div>
     </router-link>
     <router-link :to="{path:'/community'}">
-      <div class="footer-item">
-      <svg class="icon" aria-hidden="true" :class="{ active: activeIndex === 2 }" @click="activeIndex = 2">
+      <div class="footer-item" @click="activeIndex = 2">
+      <svg class="icon" aria-hidden="true" :class="{ active: activeIndex === 2 }">
           <use xlink:href="#icon-shequ"></use>
       </svg>
       <span>
@@ -31,8 +31,8 @@
     </div>
     </router-link>
     <router-link :to="{path:'/profile'}">
-      <div class="footer-item">
-      <svg class="icon" aria-hidden="true" :class="{ active: activeIndex === 3 }" @click="activeIndex = 3">
+      <div class="footer-item" @click="activeIndex = 3">
+      <svg class="icon" aria-hidden="true" :class="{ active: activeIndex === 3 }" >
           <use xlink:href="#icon-yinle"></use>
       </svg>
       <span>

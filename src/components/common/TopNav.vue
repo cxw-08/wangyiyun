@@ -36,7 +36,7 @@ const showSetting = ()=>{
   position: fixed;
   top:0;
   z-index: 1;
-  background-color: #fff;
+  // background-color: #fff;
   width: 100%;
   padding: 10px;
   display: flex;
