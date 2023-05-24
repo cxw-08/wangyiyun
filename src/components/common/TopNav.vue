@@ -23,8 +23,8 @@
 </template>
 
 <script setup>
-import PopupLeft from './PopupLeft.vue'
 import { ref } from "vue"
+import PopupLeft from './PopupLeft.vue'
 const showLeftPopup = ref(false)
 const showSetting = ()=>{
   showLeftPopup.value = true

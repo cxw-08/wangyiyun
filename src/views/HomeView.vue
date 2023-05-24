@@ -20,26 +20,22 @@
    <SwiperTop/>
    <IconList></IconList>
    <MusicList></MusicList>
-
-
   </div>
 </template>
 
-<script>
+<script setup>
 import TopNav from '@/components/common/TopNav.vue';
 import SwiperTop from '@/components/home/SwiperTop.vue';
 import IconList from '@/components/home/IconList.vue';
 import MusicList from '@/components/home/MusicList.vue';
+import { getCurrentInstance, ref } from 'vue';
+const value = ref('')
 
-export default {
-  name: 'HomeView',
-  components:{
-    TopNav,
-    SwiperTop,
-    IconList,
-    MusicList,
-  }
-}
+const instance = getCurrentInstance()
+instance?.proxy?.$loading.show()
+setTimeout(()=>{
+  instance.proxy.$loading.hide()
+},500)
 </script>
 
 <style lang="less" scoped>

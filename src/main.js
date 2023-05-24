@@ -6,8 +6,8 @@ import getVant from './plugins'
 import 'vant/lib/index.css';
 import { createPinia } from 'pinia'
 
+import loading from './plugins/loading'
 const app = createApp(App)
-
 //实现图片懒加载的自定义事件
 app.directive('lazy', async (el, bingding) => {
   const def = await import('@/asset/images/disc_default.png')
@@ -22,15 +22,9 @@ app.directive('lazy', async (el, bingding) => {
   } else {
     el.src = def.default
   }
-  // const observer = new IntersectionObserver((enr) => {
-  //   if (enr[0].intersectionRatio > 0) {
-  //     el.src = bingding.value
-  //     observer.unobserve(el)
-  //   }
-  // })
-  // observer.observe(el)
 })
 
+app.use(loading)
 getVant(app)
 app.use(createPinia())
 app.use(store)
